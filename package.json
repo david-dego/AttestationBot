@@ -1,0 +1,20 @@
+{
+  "name": "telegram-bot-attestation",
+  "version": "1.0.0",
+  "description": "Telegram bot for generating certificates",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "author": "Khalil Kacem",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
+    "moment": "^2.24.0",
+    "node-telegram-bot-api": "^0.40.0",
+    "pdf-lib": "^1.4.1",
+    "qrcode": "^1.4.4",
+    "request": "^2.88.2"
+  }
+}
