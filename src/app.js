@@ -74,7 +74,7 @@ async function generatePdf(profile, reasons, delay) {
         `Motifs: ${reasons}`,
     ].join('; ')
 
-    const existingPdfBytes = fs.readFileSync("src/certificate.pdf")
+    const existingPdfBytes = fs.readFileSync("certificate.pdf")
     const pdfDoc = await PDFDocument.load(existingPdfBytes)
     const page1 = pdfDoc.getPages()[0]
 
