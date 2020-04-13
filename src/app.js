@@ -248,7 +248,7 @@ bot.onText(/\/generate/, (msg, match) => {
 
 
     const reasons = new Array;
-    bot.on('callback_query', (callbackQuery) => {
+    bot.on('callback_query', async (callbackQuery) => {
         const message = callbackQuery.message;
         const category = callbackQuery.data;
         if (category != 'done') {
