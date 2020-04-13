@@ -263,7 +263,7 @@ bot.onText(/\/generate/, (msg, match) => {
             }
             bot.sendMessage(chatId, `_Selected reasons:_ ${reasons.join(', ')}`, {parse_mode: 'MarkdownV2'});
         } else {
-            sendFile(profile, reasons, delay)
+            await sendFile(profile, reasons, delay)
             reasons.length = 0
         }
 
