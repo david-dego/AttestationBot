@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Telegram bot generates a custom confinement form on the fly with the possibility to specify the creation time/date.
+This Telegram bot generates a custom confinement form on the fly with the ability to specify the creation time/date.
 
 ## Getting started
 
