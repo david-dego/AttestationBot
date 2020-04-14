@@ -22,7 +22,7 @@ To roll your own bot just follow these steps:
 
 The main (and only) command is `\generate DATE TIME DELAY`.
 
-`DATE` is the date on which you plan to go out, it has to be formatted as DD/MM/YYYY.
+`DATE` is the date on which you plan to go out, it has to be formatted as DD/MM/YYYY. You can use "*today*" to use the current date. 
 
 
 `TIME` is the time on which you plan to go out, it has to be formatted as HH:MM.
