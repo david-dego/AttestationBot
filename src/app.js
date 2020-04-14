@@ -220,7 +220,7 @@ bot.onText(/\/generate/, (msg, match) => {
                 inline_keyboard: [
                     [{
                         text: 'Travail',
-                        callback_data: 'development'
+                        callback_data: 'travail'
                     }, {
                         text: 'Courses',
                         callback_data: 'courses'
