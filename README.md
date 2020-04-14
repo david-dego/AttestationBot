@@ -15,7 +15,8 @@ To roll your own bot just follow these steps:
 5. Go to the project directory: `cd AttestationBot`.
 6. Fill out the `.env` file with your information.
 7. Install the dependencies: `npm install`.
-8. Start the bot: `npm start`.
+8. Make sure to install [forever](https://github.com/foreversd/forever): `[sudo] npm install forever -g`.
+8. Start the bot: `forever src/app.js`.
 
 ## Usage
 
