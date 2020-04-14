@@ -265,6 +265,7 @@ bot.onText(/\/generate/, (msg, match) => {
         } else {
             await sendFile(profile, reasons, delay)
             reasons.length = 0
+            bot.stopPolling()
         }
 
     });
