@@ -196,6 +196,10 @@ bot.onText(/\/generate/, (msg, match) => {
         );
         return;
     }
+    
+    if (date == "today") {
+        date = new Date().toLocaleDateString('fr-FR')
+    }
 
     const profile = {
         address: process.env.ADDRESS,
