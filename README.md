@@ -9,7 +9,7 @@ This Telegram bot generates a custom confinement form on the fly with the abilit
 To roll your own bot just follow these steps:
 
 1. Create your bot in Telegram and get the API token, instructions: [Creating a new bot](https://core.telegram.org/bots#6-botfather).
-2. Use the `\setcommands` to create the `generate` command for your bot.
+2. Use the `\setcommands` to create the `attestation` command for your bot.
 3. Send a message to you bot and visit the link `https://api.telegram.org/bot**YourBOTToken**/getUpdates` in order to retrieve the **chat id**.
 4. Clone this repository: `git clone https://github.com/khllkcm/AttestationBot.git`.
 5. Go to the project directory: `cd AttestationBot`.
@@ -20,23 +20,14 @@ To roll your own bot just follow these steps:
 
 ## Usage
 
-The main (and only) command is `\generate DATE TIME DELAY`.
-
-`DATE` is the date on which you plan to go out, it has to be formatted as DD/MM/YYYY. You can use "*today*" to use the current date. 
-
-
-`TIME` is the time on which you plan to go out, it has to be formatted as HH:MM.
+The main (and only) command is `\attestation DELAY`.
 
 
 `DELAY` is the number of minutes before `TIME` that will be inscribed as the form creation time. For example, if you plan on leaving your house at 10:00 and you use a delay of 20, the form will have a creation time of 9:40. This is useful for creating a form on the spot but still, #STAYHOME.
 
-The bot will reply asking you for the reasons you will be going out. Tap to select, tap again to deselect. 
-
-<img src="Screenshot01.png" width="400">
+The bot will reply asking you for the reasons you will be going out. Tap to select, tap again to deselect.
 
 The bot will inform you of which reasons are currently selected and once you tap *DONE* it will generate the form.
-
-<img src="Screenshot02.png" width="400">
 
 # Disclaimer
 
