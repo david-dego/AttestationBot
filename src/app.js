@@ -159,12 +159,12 @@ async function generatePdf(profile, reasons, delay) {
 }
 
 
-async function sendFile(profile, reasons, delay) {
+async function sendFile(profile, reasons, delay, recipient) {
     await generatePdf(profile, reasons, delay)
     const url = 'https://api.telegram.org/bot' + process.env.TOKEN + '/sendDocument'
     const r = request.post(url)
     const form = r.form();
-    form.append('chat_id', process.env.CHATID);
+    form.append('chat_id', recipient);
     form.append('document', fs.createReadStream("attestation.pdf"), {
         filename: 'attestation.pdf'
     });
@@ -190,8 +190,7 @@ bot.onText(/\/attestation/, (msg, match) => {
     time = current_date.toLocaleTimeString('fr-FR', { hour: "numeric",
                                              minute: "numeric"});
 
-    console.log(date)
-    console.log(time)
+
     if (time === undefined) {
         bot.sendMessage(
             chatId,
@@ -278,7 +277,7 @@ bot.onText(/\/attestation/, (msg, match) => {
             }
             bot.sendMessage(chatId, `_Selected reasons:_ ${reasons.join(', ')}`, {parse_mode: 'MarkdownV2'});
         } else {
-            await sendFile(profile, reasons, delay)
+            await sendFile(profile, reasons, delay,chatId)
             reasons.length = 0
             bot.stopPolling()
         }
