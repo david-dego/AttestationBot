@@ -3,6 +3,7 @@ const {PDFDocument, StandardFonts} = require('pdf-lib')
 const QRCode = require('qrcode')
 const moment = require('moment');
 const fs = require('fs')
+var users = require('./users.json');
 const request = require('request');
 const TelegramBot = require('node-telegram-bot-api');
 
@@ -88,53 +89,60 @@ async function generatePdf(profile, reasons, delay) {
         })
     }
 
-    drawText(`${firstname} ${lastname}`, 123, 686)
-    drawText(birthday, 123, 661)
-    drawText(lieunaissance, 92, 638)
-    drawText(`${address} ${zipcode} ${town}`, 134, 613)
+    drawText(`${firstname} ${lastname}`, 119, 696)
+    drawText(birthday, 119, 675)
+    drawText(lieunaissance, 297, 674)
+    drawText(`${address} ${zipcode} ${town}`, 133, 652)
 
     if (reasons.includes('travail')) {
-        drawText('x', 76, 527, 19)
+        drawText('x', 78, 578, 19)
     }
     if (reasons.includes('courses')) {
-        drawText('x', 76, 478, 19)
+        drawText('x', 78, 533, 19)
     }
     if (reasons.includes('sante')) {
-        drawText('x', 76, 436, 19)
+        drawText('x', 78, 477, 19)
     }
     if (reasons.includes('famille')) {
-        drawText('x', 76, 400, 19)
+        drawText('x', 78, 435, 19)
+    }
+    if (reasons.includes('handicap')) {
+        drawText('x', 78, 396, 19)
     }
     if (reasons.includes('sport')) {
-        drawText('x', 76, 345, 19)
+        drawText('x', 78, 358, 19)
     }
     if (reasons.includes('judiciaire')) {
-        drawText('x', 76, 298, 19)
+        drawText('x', 78, 295, 19)
     }
     if (reasons.includes('missions')) {
-        drawText('x', 76, 260, 19)
+        drawText('x', 78, 255, 19)
     }
+    if (reasons.includes('ecole')) {
+        drawText('x', 78, 211, 19)
+    }
+
     let locationSize = idealFontSize(font, profile.town, 83, 7, 11)
 
-    drawText(profile.town, 111, 226, locationSize)
+    drawText(profile.town, 105, 177, locationSize)
 
     if (reasons !== '') {
-        drawText(`${datesortie}`, 92, 200)
-        drawText(`${heuresortie}`, 200, 201)
+        drawText(`${datesortie}`, 91, 153)
+        drawText(`${heuresortie}`, 264, 153)
     }
 
-    drawText('Date de création:', 464, 150, 7)
-    drawText(`${creationDate} à ${creationHour}`, 455, 144, 7)
+    //drawText('Date de création:', 464, 150, 7)
+    //drawText(`${creationDate} à ${creationHour}`, 105, 177, 7)
 
     const generatedQR = await generateQR(data)
 
     const qrImage = await pdfDoc.embedPng(generatedQR)
 
     page1.drawImage(qrImage, {
-        x: page1.getWidth() - 170,
-        y: 155,
-        width: 100,
-        height: 100,
+        x: page1.getWidth() - 156,
+        y: 100,
+        width: 92,
+        height: 92,
     })
 
     pdfDoc.addPage()
@@ -162,23 +170,28 @@ async function sendFile(profile, reasons, delay) {
     });
 }
 
-bot.onText(/\/generate/, (msg, match) => {
+bot.onText(/\/attestation/, (msg, match) => {
     const chatId = msg.chat.id;
-    const args = match.input.split(' ');
-
-    date = args[1]
-    time = args[2]
-    delay = args[3]
-    bot.on('polling_error', error => console.log(error))
-    if (date === undefined) {
-        bot.sendMessage(
-            chatId,
-            'Please provide a date formated as *DD/MM/YYYY*',
-            {parse_mode: 'MarkdownV2'}
+    config = users[chatId]
+    if (config == undefined){
+      bot.sendMessage(
+          chatId,
+          'Utilisateur inconnu',
+          {parse_mode: 'MarkdownV2'}
         );
-        return;
+      return;
     }
 
+    const args = match.input.split(' ');
+    delay = args[1]
+    bot.on('polling_error', error => console.log(error))
+    current_date = new Date()
+    date = current_date.toLocaleDateString();
+    time = current_date.toLocaleTimeString('fr-FR', { hour: "numeric",
+                                             minute: "numeric"});
+
+    console.log(date)
+    console.log(time)
     if (time === undefined) {
         bot.sendMessage(
             chatId,
@@ -189,33 +202,24 @@ bot.onText(/\/generate/, (msg, match) => {
     }
 
     if (delay === undefined) {
-        bot.sendMessage(
-            chatId,
-            'Please provide a delay; _number of minutes_.',
-            {parse_mode: 'MarkdownV2'}
-        );
-        return;
-    }
-    
-    if (date == "today") {
-        date = new Date().toLocaleDateString('fr-FR')
+        delay = 0
     }
 
     const profile = {
-        address: process.env.ADDRESS,
-        birthday: process.env.BIRTHDAY,
-        leavingtime: moment(date + " " + time, 'DD/MM/YYYY HH:mm'),
-        firstname: process.env.FIRSTNAME,
-        lastname: process.env.LASTNAME,
-        lieunaissance: process.env.BIRTHPLACE,
-        town: process.env.TOWN,
-        zipcode: process.env.ZIPCODE
+        address: config.ADDRESS,
+        birthday: config.BIRTHDAY,
+        leavingtime: moment(date + " " + time, 'MM/DD/YYYY HH:mm'),
+        firstname: config.FIRSTNAME,
+        lastname: config.LASTNAME,
+        lieunaissance: config.BIRTHPLACE,
+        town: config.TOWN,
+        zipcode:config.ZIPCODE
     }
 
 
     bot.sendMessage(
         chatId,
-        'Tap to choose reason(s), tap once again to remove, tap DONE when finished.', {
+        'Choisir le motif de déplacement', {
             reply_markup: {
                 inline_keyboard: [
                     [{
@@ -232,17 +236,24 @@ bot.onText(/\/generate/, (msg, match) => {
                         callback_data: 'famille'
                     }],
                     [{
+                        text: 'Handicap',
+                        callback_data: 'handicap'
+                    }, {
                         text: 'Sport',
                         callback_data: 'sport'
                     }, {
-                        text: 'Judiciaire',
-                        callback_data: 'judiciaire'
+                        text: 'Administratif',
+                        callback_data: 'admin'
                     }, {
                         text: 'Missions',
-                        callback_data: 'missions'
+                        callback_data: 'mission'
+                    }],
+                    [{
+                        text: 'Ecole',
+                        callback_data: 'ecole'
                     }, {
-                        text: 'DONE',
-                        callback_data: 'done'
+                        text: 'OK',
+                        callback_data: 'ok'
                     }]
                 ],
                 force_reply: true
@@ -255,7 +266,7 @@ bot.onText(/\/generate/, (msg, match) => {
     bot.on('callback_query', async (callbackQuery) => {
         const message = callbackQuery.message;
         const category = callbackQuery.data;
-        if (category != 'done') {
+        if (category != 'ok') {
             if (reasons.includes(category)) {
                 for (var i = 0; i < reasons.length; i++) {
                     if (reasons[i] === category) {
