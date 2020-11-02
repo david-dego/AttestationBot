@@ -51,11 +51,8 @@ async function generatePdf(profile, reasons, delay) {
         leavingtime
     } = profile
 
-    const datesortie = leavingtime.toDate().toLocaleDateString('fr-FR')
-    const heuresortie = leavingtime.toDate().toLocaleTimeString('fr-FR', {
-        hour: '2-digit',
-        minute: '2-digit'
-    }).replace(':', 'h')
+    const datesortie = moment(leavingtime.toDate()).format("DD/MM/YYYY")
+    const heuresortie = moment(leavingtime.toDate()).format("HH:MM").replace(':', 'h')
 
 
     const creationTime = leavingtime.subtract(delay, 'minutes').toDate();
@@ -181,14 +178,14 @@ bot.onText(/\/attestation/, (msg, match) => {
         );
       return;
     }
-
     const args = match.input.split(' ');
     delay = args[1]
     bot.on('polling_error', error => console.log(error))
     current_date = new Date()
-    date = current_date.toLocaleDateString();
-    time = current_date.toLocaleTimeString('fr-FR', { hour: "numeric",
-                                             minute: "numeric"});
+    date = moment(current_date).format('DD/MM/YYYY');
+    time = moment(current_date).format('HH:MM');
+    console.log(date);
+    console.log(time);
 
 
     if (time === undefined) {
@@ -207,7 +204,7 @@ bot.onText(/\/attestation/, (msg, match) => {
     const profile = {
         address: config.ADDRESS,
         birthday: config.BIRTHDAY,
-        leavingtime: moment(date + " " + time, 'MM/DD/YYYY HH:mm'),
+        leavingtime: moment(date + " " + time, 'DD/MM/YYYY HH:mm'),
         firstname: config.FIRSTNAME,
         lastname: config.LASTNAME,
         lieunaissance: config.BIRTHPLACE,
