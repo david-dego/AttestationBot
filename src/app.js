@@ -51,19 +51,14 @@ async function generatePdf(profile, reasons, delay) {
         leavingtime
     } = profile
 
-    const datesortie = moment(leavingtime.toDate()).format("DD/MM/YYYY")
-    const heuresortie = moment(leavingtime.toDate()).format("HH:MM").replace(':', 'h')
+    const datesortie = moment(leavingtime.toDate()).add(delay, 'minutes').format("DD/MM/YYYY")
+    const heuresortie = moment(leavingtime.toDate()).add(delay, 'minutes').format("HH:mm").replace(':', 'h')
 
 
-    const creationTime = leavingtime.subtract(delay, 'minutes').toDate();
-    const creationDate = creationTime.toLocaleDateString('fr-FR')
-    const creationHour = creationTime.toLocaleTimeString('fr-FR', {
-        hour: '2-digit',
-        minute: '2-digit'
-    }).replace(':', 'h')
+
 
     const data = [
-        `Cree le: ${creationDate} a ${creationHour}`,
+        `Cree le: ${datesortie} a ${heuresortie}`,
         `Nom: ${lastname}`,
         `Prenom: ${firstname}`,
         `Naissance: ${birthday} a ${lieunaissance}`,
@@ -182,8 +177,9 @@ bot.onText(/\/attestation/, (msg, match) => {
     delay = args[1]
     bot.on('polling_error', error => console.log(error))
     current_date = new Date()
+    console.log(current_date)
     date = moment(current_date).format('DD/MM/YYYY');
-    time = moment(current_date).format('HH:MM');
+    time = moment(current_date).format('HH:mm');
     console.log(date);
     console.log(time);
 
