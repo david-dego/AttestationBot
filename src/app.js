@@ -108,7 +108,7 @@ async function generatePdf(profile, reasons, delay) {
     if (reasons.includes('sport')) {
         drawText('x', 76, 345, 19)
     }
-    if (reasons.includes('judiciaire')) {
+    if (reasons.includes('admin')) {
         drawText('x', 76, 298, 19)
     }
     if (reasons.includes('missions')) {
