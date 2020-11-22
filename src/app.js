@@ -112,7 +112,7 @@ async function generatePdf(profile, reasons, delay) {
     if (reasons.includes('sport')) {
         drawText('x', 78, 358, 19)
     }
-    if (reasons.includes('judiciaire')) {
+    if (reasons.includes('admin')) {
         drawText('x', 78, 295, 19)
     }
     if (reasons.includes('missions')) {
@@ -164,7 +164,7 @@ async function sendFile(profile, reasons, delay, recipient) {
     const url = 'https://api.telegram.org/bot' + process.env.TOKEN + '/sendDocument'
     const r = request.post(url)
     const form = r.form();
-    form.append('chat_id', recipient);
+    form.append('chat_id', recipient.toString());
     form.append('document', fs.createReadStream("attestation.pdf"), {
         filename: 'attestation.pdf'
     });
