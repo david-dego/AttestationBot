@@ -89,46 +89,46 @@ async function generatePdf(profile, reasons, delay) {
         })
     }
 
-    drawText(`${firstname} ${lastname}`, 119, 696)
-    drawText(birthday, 119, 675)
-    drawText(lieunaissance, 297, 674)
-    drawText(`${address} ${zipcode} ${town}`, 133, 652)
+    drawText(`${firstname} ${lastname}`, 92, 702)
+    drawText(birthday, 92, 684)
+    drawText(lieunaissance, 214, 684)
+    drawText(`${address} ${zipcode} ${town}`, 104, 665)
 
     if (reasons.includes('travail')) {
-        drawText('x', 78, 578, 19)
+        drawText('x', 47, 553, 12)
     }
     if (reasons.includes('courses')) {
-        drawText('x', 78, 533, 19)
+        drawText('x', 47, 482, 12)
     }
     if (reasons.includes('sante')) {
-        drawText('x', 78, 477, 19)
+        drawText('x', 47, 434, 12)
     }
     if (reasons.includes('famille')) {
-        drawText('x', 78, 435, 19)
+        drawText('x', 47, 410, 12)
     }
     if (reasons.includes('handicap')) {
-        drawText('x', 78, 396, 19)
+        drawText('x', 47, 373, 12)
     }
     if (reasons.includes('sport')) {
-        drawText('x', 78, 358, 19)
+        drawText('x', 47, 349, 12)
     }
     if (reasons.includes('admin')) {
-        drawText('x', 78, 295, 19)
+        drawText('x', 47, 276, 12)
     }
     if (reasons.includes('missions')) {
-        drawText('x', 78, 255, 19)
+        drawText('x', 47, 252, 12)
     }
     if (reasons.includes('ecole')) {
-        drawText('x', 78, 211, 19)
+        drawText('x', 47, 228, 12)
     }
 
     let locationSize = idealFontSize(font, profile.town, 83, 7, 11)
 
-    drawText(profile.town, 105, 177, locationSize)
+    drawText(profile.town, 78, 76, locationSize)
 
     if (reasons !== '') {
-        drawText(`${datesortie}`, 91, 153)
-        drawText(`${heuresortie}`, 264, 153)
+        drawText(`${datesortie}`, 63, 58)
+        drawText(`${heuresortie}`, 227, 58)
     }
 
     //drawText('Date de création:', 464, 150, 7)
@@ -140,7 +140,7 @@ async function generatePdf(profile, reasons, delay) {
 
     page1.drawImage(qrImage, {
         x: page1.getWidth() - 156,
-        y: 100,
+        y: 25,
         width: 92,
         height: 92,
     })
@@ -149,7 +149,7 @@ async function generatePdf(profile, reasons, delay) {
     const page2 = pdfDoc.getPages()[1]
     page2.drawImage(qrImage, {
         x: 50,
-        y: page2.getHeight() - 350,
+        y: page2.getHeight() - 390,
         width: 300,
         height: 300,
     })
